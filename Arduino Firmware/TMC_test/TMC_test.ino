@@ -1,40 +1,47 @@
-#include <TMC2130Stepper.h>
-#include <TMC2130Stepper_REGDEFS.h>
-#include <TMC2130Stepper_UTILITY.h>
+/*
+  This is a test of the TMC2130 in standalone mode, functioning like a TMC2100.
+*/
 
 #define EN_PIN   7
 #define DIR_PIN  9
 #define STEP_PIN 8
 #define CS_PIN   2
 
-TMC2130Stepper TMC2130 = TMC2130Stepper(EN_PIN, DIR_PIN, STEP_PIN, CS_PIN);
+#define CFG1 12
+#define CFG2 13
 
 void setup() {
-  TMC2130.begin();
-  TMC2130.SilentStepStick2130(1200);
-  //TMC2130.stealthChop(1);
-  TMC2130.microsteps(0);
+  pinMode(EN_PIN, OUTPUT);
+  digitalWrite(EN_PIN, HIGH);
+  
+  pinMode(DIR_PIN, OUTPUT);
+  pinMode(STEP_PIN, OUTPUT);
+  pinMode(CFG1, OUTPUT);
+  pinMode(CFG2, OUTPUT);
 
+  digitalWrite(CFG1, LOW);
+  digitalWrite(CFG2, LOW);
+  
   digitalWrite(EN_PIN, LOW);
 }
 
 void loop() {
-  /*
-  static bool dir = false;
-  static int last = 0;
-
-  if(millis() - last >= 1000){
-    dir = !dir;
-    TMC2130.shaft_dir(dir);
-  }
-  */
+  static boolean dir = false;
+  digitalWrite(DIR_PIN, dir);
   
-  for(int i = 0; i < 200; i ++){
-    digitalWrite(STEP_PIN, HIGH);
-    delayMicroseconds(20);
-    digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(500);
-  }
-
+  tStep(200*2);
+  
   delay(1000);
+  dir = !dir;
+}
+
+void tStep(int howMany){
+  for(int i = 0; i < howMany; i ++){
+    digitalWrite(STEP_PIN, HIGH);
+    //delayMicroseconds(15);
+    delayMicroseconds(50);
+    digitalWrite(STEP_PIN, LOW);
+    //delayMicroseconds(700);
+    delayMicroseconds(1000);
+  }
 }
