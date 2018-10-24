@@ -31,6 +31,8 @@ void setup() {
 }
 
 void loop() {
+  static unsigned long loopCount = 1;
+  static boolean en = true;
   static float acc = 5;
   static float acc_amount = .005;
   static boolean up = true;
@@ -50,4 +52,11 @@ void loop() {
       up = !up;
     }
   }
+
+  if(loopCount / 1000UL % 2 == 0){
+    digitalWrite(CS_PIN, en);
+    en = !en;
+  }
+
+  loopCount ++;
 }

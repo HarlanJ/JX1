@@ -92,11 +92,6 @@ void setup()
   pinMode(SCK_PIN, OUTPUT);
   digitalWrite(SCK_PIN, LOW);
 
-  //init serial port
-  Serial.begin(9600); //init serial port and set baudrate
-  while(!Serial); //wait for serial port to connect (needed for Leonardo only)
-  Serial.println("\nStart...");
-
   //init SPI
   SPI.begin();
   //SPI.setDataMode(SPI_MODE3); //SPI Mode 3
@@ -116,6 +111,7 @@ void setup()
   //tmc_write(WRITE_FLAG|REG_CHOPCONF,   0x06008008UL); //  4 microsteps, MRES=0, TBL=1=24, TOFF=8
   //tmc_write(WRITE_FLAG|REG_CHOPCONF,   0x07008008UL); //  2 microsteps, MRES=0, TBL=1=24, TOFF=8
   tmc_write(WRITE_FLAG|REG_CHOPCONF,   0x08008008UL); //  1 microsteps, MRES=0, TBL=1=24, TOFF=8
+  digitalWrite(CS_PIN, LOW);
 
   //TMC2130 outputs on (LOW active)
   digitalWrite(EN_PIN, LOW);
@@ -123,47 +119,17 @@ void setup()
 
 void loop()
 {
-  static uint32_t last_time=0;
-  uint32_t ms = millis();
-  uint32_t data;
-  uint8_t s;
-
-    /*
-  if((ms-last_time) > 1000) //run every 1s
-  {
-    last_time = ms;
-
-    //show REG_GSTAT
-    s = tmc_read(REG_GSTAT, &data);
-    Serial.print("GSTAT:     0x0");
-    Serial.print(data, HEX);
-    Serial.print("\t - ");
-    Serial.print("Status: 0x");
-    Serial.print(s, HEX);
-    if(s & 0x01) Serial.print(" reset");
-    if(s & 0x02) Serial.print(" error");
-    if(s & 0x04) Serial.print(" sg2");
-    if(s & 0x08) Serial.print(" standstill");
-    Serial.println(" ");
-
-    //show REG_DRVSTATUS
-    s = tmc_read(REG_DRVSTATUS, &data);
-    Serial.print("DRVSTATUS: 0x");
-    Serial.print(data, HEX);
-    Serial.print("\t - ");
-    Serial.print("Status: 0x");
-    Serial.print(s, HEX);
-    if(s & 0x01) Serial.print(" reset");
-    if(s & 0x02) Serial.print(" error");
-    if(s & 0x04) Serial.print(" sg2");
-    if(s & 0x08) Serial.print(" standstill");
-    Serial.println(" ");
-  }
-  */
 
   //make steps
   digitalWrite(STEP_PIN, HIGH);
   delayMicroseconds(10);
   digitalWrite(STEP_PIN, LOW);
   delayMicroseconds(1200);
+
+  static boolean inverted = false;
+  if(!inverted && millis() > 2000){
+    //SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
+    tmc_write(WRITE_FLAG|REG_GCONF,  0x00000011UL);
+    inverted = true;
+  }
 }
