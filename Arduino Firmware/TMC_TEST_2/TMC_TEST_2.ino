@@ -127,7 +127,7 @@ void loop()
   delayMicroseconds(1200);
 
   static boolean inverted = false;
-  if(!inverted && millis() > 2000){
+  if(!inverted && millis() > 10000){
     //SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
     tmc_write(WRITE_FLAG|REG_GCONF,  0x00000011UL);
     inverted = true;
