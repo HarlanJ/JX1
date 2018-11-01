@@ -40,7 +40,9 @@ struct RegisterSettings{
   uint32_t value;
 };
 
-void setup(){ 
+void setup(){
+  Serial.begin(11520);
+  
   pinMode(MOSI_PIN, OUTPUT);
   digitalWrite(MOSI_PIN, LOW);
   pinMode(MISO_PIN, INPUT);
@@ -77,8 +79,8 @@ void setup(){
     drivers[i].setEnabled(true);
   }
 
-  drivers[0].setRate(1);
-  drivers[1].setRate(1);
+  drivers[0].setRate(0);
+  drivers[1].setRate(0);
   drivers[2].setRate(0);
 }
 
@@ -86,6 +88,13 @@ void loop(){
   static unsigned long lastSteps = -1;
   static unsigned long currentTime = 0;
 
+  if(Serial.available() > 0){
+    Serial.read();
+    drivers[0].setRate(1);
+    drivers[1].setRate(1);
+    drivers[2].setRate(1);
+  }
+  
   currentTime = micros();
   if(currentTime - lastSteps >= 1200){
     for(int i = 0; i < 3; i ++){

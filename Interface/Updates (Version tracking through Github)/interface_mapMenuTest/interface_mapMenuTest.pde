@@ -1,5 +1,8 @@
+import processing.serial.*;
 import java.lang.Class;
 import java.io.File;
+
+Serial nano;
 
 //Used for moving the screen around the menu
 int startTime;
@@ -48,6 +51,8 @@ void settings(){
 void setup() {
   if(isOnTargetPi) exec("/usr/share/scripts/login");
   
+  nano = new Serial(this, "/dev/serial0", 115200);
+  
   screenPosition = new PVector(0, 0);
   screenTarget = new PVector(0, 0);
   screenStart = new PVector(0, 0);
@@ -87,6 +92,11 @@ void draw() {
       background(settings.getInt("bgColor"));
       text("Loading...", 0, 0, width, height);
     }
+  }
+  
+  
+  if(frameCount == 100){
+    nano.write((int)'A');
   }
 }
 
