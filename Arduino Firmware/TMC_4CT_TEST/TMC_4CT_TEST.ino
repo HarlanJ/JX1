@@ -8,10 +8,12 @@ int pins[4][4] = {
   {A5, A6, A4, A3} //driver 2, STEP, DIR, CS, EN
 };
 
+/*
 #define EN_PIN    3 //enable (CFG6)
 #define DIR_PIN   1 //direction
 #define STEP_PIN  0 //step
 #define CS_PIN    2 //chip select
+*/
 
 
 #define MOSI_PIN 11 //SDI/MOSI (ICSP: 4, Uno: 11, Mega: 51)
@@ -41,8 +43,8 @@ struct RegisterSettings{
 };
 
 void setup(){
-  Serial.begin(11520);
-  
+  Serial.begin(9600);
+
   pinMode(MOSI_PIN, OUTPUT);
   digitalWrite(MOSI_PIN, LOW);
   pinMode(MISO_PIN, INPUT);
@@ -60,11 +62,11 @@ void setup(){
   RegisterSettings gconf;
   gconf.reg = WRITE_FLAG|REG_GCONF;
   gconf.value = 0x00000005UL;
-  
+
   RegisterSettings iHold_iRun;
   iHold_iRun.reg = WRITE_FLAG|REG_IHOLD_IRUN;
   iHold_iRun.value = 0x00001010UL;
-  
+
   RegisterSettings chopConf;
   chopConf.reg = WRITE_FLAG|REG_CHOPCONF;
   chopConf.value = 0x08008008UL;
@@ -79,24 +81,26 @@ void setup(){
     drivers[i].setEnabled(true);
   }
 
-  drivers[0].setRate(0);
-  drivers[1].setRate(0);
-  drivers[2].setRate(0);
+  drivers[0].setRate(1);
+  drivers[1].setRate(1);
+  drivers[2].setRate(1);
 }
 
 void loop(){
   static unsigned long lastSteps = -1;
   static unsigned long currentTime = 0;
 
+  /*
   if(Serial.available() > 0){
     Serial.read();
     drivers[0].setRate(1);
     drivers[1].setRate(1);
     drivers[2].setRate(1);
   }
-  
+  */
+
   currentTime = micros();
-  if(currentTime - lastSteps >= 1200){
+  if(currentTime - lastSteps >= 3000){
     for(int i = 0; i < 3; i ++){
       drivers[i].makeStep();
     }
