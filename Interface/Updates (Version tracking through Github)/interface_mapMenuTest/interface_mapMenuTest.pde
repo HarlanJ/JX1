@@ -52,13 +52,13 @@ void setup() {
   if(isOnTargetPi) exec("/usr/share/scripts/login");
   
   nano = new Serial(this, "/dev/serial0", 115200);
-  
+
   screenPosition = new PVector(0, 0);
   screenTarget = new PVector(0, 0);
   screenStart = new PVector(0, 0);
 
   buttons = new Button[48];
-  
+
   if(isOnTargetPi){
     noCursor();
   }
@@ -93,8 +93,8 @@ void draw() {
       text("Loading...", 0, 0, width, height);
     }
   }
-  
-  
+
+
   if(frameCount == 100){
     nano.write((int)'A');
   }

@@ -32,10 +32,10 @@ int pins[4][4] = {
 #define REG_DRVSTATUS  0x6F
 
 DriverControl drivers[4] = {DriverControl(pins[0][0], pins[0][1], pins[0][2], pins[0][3]),
-                           DriverControl(pins[1][0], pins[1][1], pins[1][2], pins[1][3]),
-                           DriverControl(pins[2][0], pins[2][1], pins[2][2], pins[2][3]),
-                           DriverControl(pins[3][0], pins[3][1], pins[3][2], pins[3][3])
-                          };
+                            DriverControl(pins[1][0], pins[1][1], pins[1][2], pins[1][3]),
+                            DriverControl(pins[2][0], pins[2][1], pins[2][2], pins[2][3]),
+                            DriverControl(pins[3][0], pins[3][1], pins[3][2], pins[3][3])
+                           };
 
 struct RegisterSettings{
   uint8_t reg;
@@ -43,7 +43,7 @@ struct RegisterSettings{
 };
 
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   pinMode(MOSI_PIN, OUTPUT);
   digitalWrite(MOSI_PIN, LOW);
@@ -81,29 +81,27 @@ void setup(){
     drivers[i].setEnabled(true);
   }
 
-  drivers[0].setRate(1);
-  drivers[1].setRate(1);
-  drivers[2].setRate(1);
+  drivers[0].setRate(0);
+  drivers[1].setRate(0);
+  drivers[2].setRate(0);
 }
 
 void loop(){
   static unsigned long lastSteps = -1;
   static unsigned long currentTime = 0;
 
-  /*
   if(Serial.available() > 0){
     Serial.read();
     drivers[0].setRate(1);
     drivers[1].setRate(1);
     drivers[2].setRate(1);
   }
-  */
 
   currentTime = micros();
   if(currentTime - lastSteps >= 3000){
-    for(int i = 0; i < 3; i ++){
+    for(int i = 0; i < 4; i ++){
       drivers[i].makeStep();
     }
-    lastSteps = micros();
+    lastSteps = currentTime;
   }
 }
