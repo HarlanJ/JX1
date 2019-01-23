@@ -2,10 +2,10 @@
 #include "DriverControl.h"
 
 int pins[4][4] = {
-  {A1, A0, A2, 2}, //driver 3, STEP, DIR, CS, EN
-  {4, 3, 7, 8},    //driver 4, STEP, DIR, CS, EN
-  {6, 5, 9, 10},   //driver 1, STEP, DIR, CS, EN
-  {A5, A6, A4, A3} //driver 2, STEP, DIR, CS, EN
+  {A1, A0, A2, 2 }, //driver 1, STEP, DIR, CS, EN
+  {4 , 3 , 7 , 8 },    //driver 2, STEP, DIR, CS, EN
+  {6 , 5 , 9 , 10},   //driver 3, STEP, DIR, CS, EN
+  {A5, A6, A4, A3} //driver 4, STEP, DIR, CS, EN
 };
 
 /*
@@ -31,10 +31,11 @@ int pins[4][4] = {
 #define REG_DCCTRL     0x6E
 #define REG_DRVSTATUS  0x6F
 
-DriverControl drivers[4] = {DriverControl(pins[0][0], pins[0][1], pins[0][2], pins[0][3]),
-                            DriverControl(pins[1][0], pins[1][1], pins[1][2], pins[1][3]),
-                            DriverControl(pins[2][0], pins[2][1], pins[2][2], pins[2][3]),
-                            DriverControl(pins[3][0], pins[3][1], pins[3][2], pins[3][3])
+DriverControl drivers[4] = {
+        DriverControl(pins[0][0], pins[0][1], pins[0][2], pins[0][3]),
+        DriverControl(pins[1][0], pins[1][1], pins[1][2], pins[1][3]),
+        DriverControl(pins[2][0], pins[2][1], pins[2][2], pins[2][3]),
+        DriverControl(pins[3][0], pins[3][1], pins[3][2], pins[3][3])
                            };
 
 struct RegisterSettings{
@@ -80,28 +81,66 @@ void setup(){
   for(int i = 0; i < 4; i ++){
     drivers[i].setEnabled(true);
   }
-
-  drivers[0].setRate(0);
-  drivers[1].setRate(0);
-  drivers[2].setRate(0);
 }
 
 void loop(){
+  static bool stepsMade;
+
   static unsigned long lastSteps = -1;
   static unsigned long currentTime = 0;
 
-  if(Serial.available() > 0){
-    Serial.read();
-    drivers[0].setRate(1);
-    drivers[1].setRate(1);
-    drivers[2].setRate(1);
-  }
-
   currentTime = micros();
   if(currentTime - lastSteps >= 3000){
+    stepsMade = false;
+    bool stepMade;
     for(int i = 0; i < 4; i ++){
-      drivers[i].makeStep();
+      stepsMade = (drivers[i].makeStep() || stepsMade);
     }
     lastSteps = currentTime;
+  }
+
+  if(!stepsMade && Serial.available() > 0){
+    int cmd = Serial.read();
+    byte buffer[32];
+    switch(cmd){
+      case 0:
+        Serial.readBytes(buffer, 8);
+
+        int16_t xMove = *reinterpret_cast<int16_t *>(&buffer[0]);
+        int16_t yMove = *reinterpret_cast<int16_t *>(&buffer[2]);
+        int16_t zMove = *reinterpret_cast<int16_t *>(&buffer[4]);
+        int16_t eMove = *reinterpret_cast<int16_t *>(&buffer[6]);
+
+        uint16_t largest = 0;
+        if(abs(xMove) > largest) largest = abs(xMove);
+        if(abs(yMove) > largest) largest = abs(yMove);
+        if(abs(zMove) > largest) largest = abs(zMove);
+        if(abs(eMove) > largest) largest = abs(eMove);
+
+        drivers[0].setRate((float)xMove / largest, abs(xMove));
+        drivers[1].setRate((float)yMove / largest, abs(yMove));
+        drivers[2].setRate((float)zMove / largest, abs(zMove));
+        drivers[3].setRate((float)eMove / largest, abs(eMove));
+
+        /*
+        Serial.print("X:");
+        Serial.print(xMove, DEC);
+
+        Serial.print("\tY:");
+        Serial.print(yMove, DEC);
+
+        Serial.print("\tZ:");
+        Serial.print(zMove, DEC);
+
+        Serial.print("\tE:");
+        Serial.print(eMove, DEC);
+
+        Serial.print("\tLarge:");
+        Serial.print(largest, DEC);
+
+        Serial.println();
+        */
+      break;
+    }
   }
 }

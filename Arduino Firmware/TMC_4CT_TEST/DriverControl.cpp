@@ -25,7 +25,7 @@ uint8_t DriverControl::writeRegister(uint8_t reg, uint32_t data){
   uint8_t s;
 
   digitalWrite(_cs, LOW);
-  
+
   s = SPI.transfer(reg);
   SPI.transfer((data>>24UL)&0xFF)&0xFF;
   SPI.transfer((data>>16UL)&0xFF)&0xFF;
@@ -62,12 +62,18 @@ void DriverControl::setEnabled(bool enabled){
   digitalWrite(_en, !enabled);
 }
 
-void DriverControl::setRate(double theRate){
+void DriverControl::setRate(double theRate, uint16_t steps){
   _rate = theRate;
+  _stepsToDo = steps;
   digitalWrite(_dir, _rate < 0);
 }
 
-void DriverControl::makeStep(){
+bool DriverControl::makeStep(){
+  if(_stepsToDo == 0){
+    return false;
+  } else {
+    _stepsToDo --;
+  }
   _stepProgress += _rate;
 
   if(round(_stepProgress) >= 1){
@@ -77,6 +83,8 @@ void DriverControl::makeStep(){
     _stepProgress += 1;
     this->doStep();
   }
+
+  return true;
 }
 
 void DriverControl::doStep(){
