@@ -53,6 +53,9 @@ short settingColor = -1;
 
 int eEggTime = -2;
 
+int diagonal=0;
+
+//String __LOG__ = "";
 
 public void settings(){
   boolean success = true;
@@ -66,20 +69,22 @@ public void settings(){
   } else {
     size(800, 480);
   }
+
+  diagonal = PApplet.parseInt(sqrt(sq(width) + sq(height)));
   noSmooth();
 }
 
 public void setup() {
   if(isOnTargetPi) exec("/usr/share/scripts/login");
-  
+
   nano = new Serial(this, "/dev/serial0", 115200);
-  
+
   screenPosition = new PVector(0, 0);
   screenTarget = new PVector(0, 0);
   screenStart = new PVector(0, 0);
 
   buttons = new Button[48];
-  
+
   if(isOnTargetPi){
     noCursor();
   }
@@ -114,11 +119,13 @@ public void draw() {
       text("Loading...", 0, 0, width, height);
     }
   }
-  
-  
-  if(frameCount == 200){
-    nano.write((int)'A');
+
+  /*
+  while(nano.available() > 0){
+    __LOG__ += char(nano.read());
   }
+  text(__LOG__, width/2-screenPosition.x, height/2-screenPosition.y);
+  */
 }
 
 public void mousePressed() {
@@ -139,16 +146,16 @@ public void mousePressed() {
 class Button{
   PVector pos, size;
   PImage texture;
-  
-  private Runnable callback;
-  
+
+  Runnable callback;
+
   Button(PVector p, PVector s, PImage t, Runnable CallBack){
     this.pos = p.copy();
     this.size = s.copy();
     this.texture = t;
     this.callback = CallBack;
   }
-  
+
   public boolean pressed(){
     float x = mouseX - screenPosition.x;
     float y = mouseY - screenPosition.y;
@@ -158,21 +165,28 @@ class Button{
     }
     return false;
   }
-  
+
   public void draw(){
-    if(moving || pos.x + 5 > -screenPosition.x && pos.x< (-screenPosition.x) + width && pos.y + 5 > -screenPosition.y && pos.y < (-screenPosition.y) + height){
-      pushStyle();
-      imageMode(CORNER);
+    
+    if(moving || pos.x + 5 > -screenPosition.x &&
+                 pos.x < (-screenPosition.x) + width &&
+                 pos.y + 5 > -screenPosition.y &&
+                 pos.y < (-screenPosition.y) + height){
+
+    //if(pos.dist(PVector.mult(screenPosition, -1)) <= diagonal){
+      //pushStyle();
+      //imageMode(CORNER);
+      //moved to an outer function for performance
       image(texture, pos.x, pos.y, size.x, size.y);
-      popStyle();
+      //popStyle();
     }
   }
 }
 //----------HELPER FUNCTIONS FOR initializeButtons()----------
 final int DFLT_BTN_COLOR = 0xFF323264; //0xFF2b9ae5;
-final int DFLT_TXT_COLOR = 0xFFBBBBBB; //0xFF000000; 
+final int DFLT_TXT_COLOR = 0xFFBBBBBB; //0xFF000000;
 
-//The margins parameter is a string representation of a nibble for where the edges of the window are:         
+//The margins parameter is a string representation of a nibble for where the edges of the window are:
 //If the top and left sides of the button were against window edges, it would be 0b1001. The order (msb->lsb) is clockwise, starting at the top.
 public PGraphics generateButtonBase(PVector size, String marginString, String label, PFont font) {
   return generateButtonBase(size, marginString, label, DFLT_BTN_COLOR, DFLT_TXT_COLOR, font);
@@ -208,7 +222,7 @@ public PGraphics generateButtonBase(PVector oSize, String marginString, String l
   t.textFont(font);
   t.textSize(textSize);
 
-  while (t.textWidth(label) < size.x * .75f && textSize <= 64) {
+  while (t.textWidth(label) < size.x * .75f && textSize <= 64*uiTextureScaling) {
     t.textSize(textSize);
     textSize ++;
   }
@@ -236,9 +250,12 @@ public PGraphics generateButtonBase(PVector oSize, String marginString, String l
 //------------------------------------------------------------
 
 public void drawButtons() {
+  pushStyle();
+  imageMode(CORNER);
   for (Button b : buttons) {
     b.draw();
   }
+  popStyle();
 }
 
 public void moveScreen(float x, float y) {
@@ -270,7 +287,7 @@ public void drawLabels() {
       text("Setting\nText", width * 2 + width / 4, height * 2 + height * .75f, width * 2 + width / 2, height * 3);
     break;
   }
-  
+
   if(settings.getInt(colors[TEXT_COLOR]) == 0xFFFFFF00 && settings.getInt(colors[BUTTON_COLOR]) == 0xFFDC143C && millis() % (int)random(5, 11) != 0){
     if(eEggTime == -1){
       eEggTime = millis() + 3500;
@@ -284,7 +301,7 @@ public void drawLabels() {
 public void runSetup() {
   try {
     settings = loadJSONObject("settings.json");
-  } 
+  }
   catch (java.lang.NullPointerException e) {
     settings = new JSONObject();
     settings.setString("font", "Quantico.ttf");
@@ -340,7 +357,7 @@ public void runSetup() {
   initLevel ++;
 }
 
-final String[] fileButtonBorders = {"1100", "0100", "0100", "0010"}; 
+final String[] fileButtonBorders = {"1100", "0100", "0100", "0010"};
 public Button[] loadPrintFiles(String dir){
   int fillColor = settings.getInt(colors[BUTTON_COLOR]);
   int textColor = settings.getInt(colors[TEXT_COLOR]);
@@ -361,13 +378,13 @@ public Button[] loadPrintFiles(String dir){
           moveScreen(width * 2, height);
         }
       }));
-      
+
       if(i % 4 == 3){
         pos.y = height * ((i+1)/4);
       } else{
         pos.y += height / 4;
       }
-      
+
       i++;
     } else if(f.getName().substring(f.getName().lastIndexOf(".")).toLowerCase().equals(".gcode")){
       filenames = (String[])append(filenames, f.getName());
@@ -376,18 +393,18 @@ public Button[] loadPrintFiles(String dir){
           moveScreen(width * 3, 0);
         }
       }));
-      
+
       if(i % 4 == 3){
         pos.y = height * ((i+1)/4);
       } else{
         pos.y += height / 4;
       }
-      
+
       i++;
     }
   }
   lastFileButton = firstFileButton + i;
-  
+
   pos.set(width * -2, 0);
   size.set(width / 4, height / 2);
   buttonList.add(new Button(pos, size, generateButtonBase(size, "1001", "Back", fillColor, textColor, font), new Runnable(){
@@ -395,9 +412,9 @@ public Button[] loadPrintFiles(String dir){
       moveScreen(width, 0);
     }
   }));
-  
+
   lastFileNav = lastFileButton;
-  
+
   if(i > 4){
     pos.set(width * -2, height / 2);
     buttonList.add(new Button(pos, size, generateButtonBase(size, "0011", "\\/", fillColor, textColor, font), new Runnable(){
@@ -407,7 +424,7 @@ public Button[] loadPrintFiles(String dir){
     }));
     lastFileNav++;
   }
-  
+
   for(int j = i/4; j > 0; j --){
     pos.add(0, height / 2);
     buttonList.add(new Button(pos, size, generateButtonBase(size, "1001", "/\\", fillColor, textColor, font), new Runnable(){
@@ -416,7 +433,7 @@ public Button[] loadPrintFiles(String dir){
       }
     }));
     lastFileNav++;
-    
+
     if(j != 1){
       pos.add(0, height / 2);
       buttonList.add(new Button(pos, size, generateButtonBase(size, "0011", "\\/", fillColor, textColor, font), new Runnable(){
@@ -427,7 +444,7 @@ public Button[] loadPrintFiles(String dir){
       lastFileNav++;
     }
   }
-  
+
   if(buttonList.size() == 0){
     return new Button[]{};
   }
@@ -440,7 +457,7 @@ public void initializeButtons() {
   font = createFont("fonts/" + settings.getString("font"), 64);
   textFont(font);
   textSize(35);
-  
+
   int fillColor = settings.getInt("buttonColor");
   int textColor = settings.getInt("textColor");
 
@@ -480,7 +497,7 @@ public void initializeButtons() {
     }
   }
   );
-  
+
   pos.set(0, height / 3.0f + height);
   size.set(width / 2, height / 1.5f);
   buttons[3] = new Button(pos, size, generateButtonBase(size, "0011", "Yes", fillColor, textColor, font), new Runnable() {
@@ -695,13 +712,13 @@ public void initializeButtons() {
     }
   }
   );
-  
+
   pos.set(-width, 0);
   buttons[23] = new Button(pos, size, generateButtonBase(size, "1101", "Print from USB", fillColor, textColor, font), new Runnable() {
     public void run() {
       /*
       moveScreen(width*2, 0);
-      println(buttons.length + " " + firstFileButton + " " + lastFileButton + " " + lastFileNav); 
+      println(buttons.length + " " + firstFileButton + " " + lastFileButton + " " + lastFileNav);
       if(firstFileButton != -1)
         buttons = (Button[])concat((Button[])subset(buttons, 0, firstFileButton), (Button[])subset(buttons, lastFileNav+1));
       firstFileButton = lastFileButton = lastFileNav = -1;
@@ -710,7 +727,7 @@ public void initializeButtons() {
     }
   }
   );
-  
+
   pos.set(-width, height / 3);
   buttons[24] = new Button(pos, size, generateButtonBase(size, "0101", "Print from FTP folder", fillColor, textColor, font), new Runnable() {
     public void run() {
@@ -722,7 +739,7 @@ public void initializeButtons() {
     }
   }
   );
-  
+
   pos.set(-width, height / 1.5f);
   buttons[25] = new Button(pos, size, generateButtonBase(size, "0111", "Back", fillColor, textColor, font), new Runnable() {
     public void run() {
@@ -730,7 +747,7 @@ public void initializeButtons() {
     }
   }
   );
-  
+
   pos.set(width * 1.5f, height / 1.5f);
   size.set(width / 2, height / 3);
   buttons[26] = new Button(pos, size, generateButtonBase(size, "0110", "Jog", fillColor, textColor, font), new Runnable(){
@@ -738,51 +755,89 @@ public void initializeButtons() {
       moveScreen(width * -2, -height);
     }
   });
-  
+
+  final short speed = 25 * 10; //25steps/mm, 10mm = 1cm
+
   pos.set(width * 2, height);
   size.set(width / 3, height / 3);
   buttons[27] = new Button(pos, size, generateButtonBase(size, "1001", "Z-", fillColor, textColor, font), new Runnable(){
     public void run(){
+      nano.write(new byte[]{0,
+                            0, 0,
+                            0, 0,
+                            PApplet.parseByte(-speed), PApplet.parseByte(-speed >> 8),
+                            0, 0
+                            });
     }
   });
-  
+
   pos.set(width * 2 + width/3, height);
   buttons[28] = new Button(pos, size, generateButtonBase(size, "1000", "Y+", fillColor, textColor, font), new Runnable(){
     public void run(){
+      nano.write(new byte[]{0,
+                            0, 0,
+                            PApplet.parseByte(speed), PApplet.parseByte(speed >> 8),
+                            0, 0,
+                            0, 0
+                            });
     }
   });
-  
+
   pos.set(width * 2 + width / 1.5f, height);
-  buttons[29] = new Button(pos, size, generateButtonBase(size, "1100", "Z-", fillColor, textColor, font), new Runnable(){
+  buttons[29] = new Button(pos, size, generateButtonBase(size, "1100", "Z+", fillColor, textColor, font), new Runnable(){
     public void run(){
+      nano.write(new byte[]{0,
+                            0, 0,
+                            0, 0,
+                            PApplet.parseByte(speed), PApplet.parseByte(speed >> 8),
+                            0, 0
+                            });
     }
   });
-  
+
   pos.set(width * 2, height + height / 3);
   buttons[30] = new Button(pos, size, generateButtonBase(size, "0001", "X-", fillColor, textColor, font), new Runnable(){
     public void run(){
+      nano.write(new byte[]{0,
+                            PApplet.parseByte(-speed), PApplet.parseByte(-speed >> 8),
+                            0, 0,
+                            0, 0,
+                            0, 0
+                            });
     }
   });
-  
+
   pos.set(width * 2 + width / 1.5f, height + height / 3);
   buttons[31] = new Button(pos, size, generateButtonBase(size, "0100", "X+", fillColor, textColor, font), new Runnable(){
     public void run(){
+      nano.write(new byte[]{0,
+                            PApplet.parseByte(speed), PApplet.parseByte(speed >> 8),
+                            0, 0,
+                            0, 0,
+                            0, 0
+                            });
     }
   });
-  
+
   pos.set(width * 2 + width / 3, height + height / 1.5f);
   buttons[32] = new Button(pos, size, generateButtonBase(size, "0010", "Y-", fillColor, textColor, font), new Runnable(){
     public void run(){
+      nano.write(new byte[]{0,
+                            0, 0,
+                            PApplet.parseByte(-speed), PApplet.parseByte(-speed >> 8),
+                            0, 0,
+                            0, 0
+                            });
     }
   });
-  
+
   pos.set(width * 2, height + height / 1.5f);
   buttons[33] = new Button(pos, size, generateButtonBase(size, "0011", "Back", fillColor, textColor, font), new Runnable(){
     public void run(){
       moveScreen(-width, 0);
     }
   });
-  
+
   pos.set(width, height / 2);
   size.set(width / 2, height / 2);
   buttons[34] = new Button(pos, size, generateButtonBase(size, "0011", "\\/", fillColor, textColor, font), new Runnable() {
@@ -791,14 +846,14 @@ public void initializeButtons() {
     }
   }
   );
-  
+
   pos.set(width, height * 2);
   buttons[35] = new Button(pos, size, generateButtonBase(size, "1001", "/\\", fillColor, textColor, font), new Runnable(){
     public void run(){
       moveScreen(-width, 0);
     }
   });
-  
+
   pos.set(width + width / 2, height * 2);
   size.set(width / 2, height / 3);
   buttons[36] = new Button(pos, size, generateButtonBase(size, "1100", "Background Color", fillColor, textColor, font), new Runnable(){
@@ -807,7 +862,7 @@ public void initializeButtons() {
       moveScreen(width * -2, height * -2);
     }
   });
-  
+
   pos.set(width + width / 2, height * 2 + height / 3);
   buttons[37] = new Button(pos, size, generateButtonBase(size, "0100", "Button Color", fillColor, textColor, font), new Runnable(){
     public void run(){
@@ -815,7 +870,7 @@ public void initializeButtons() {
       moveScreen(width * -2, height * -2);
     }
   });
-  
+
   pos.set(width + width / 2, height * 2 + height / 1.5f);
   buttons[38] = new Button(pos, size, generateButtonBase(size, "0110", "Text Color", fillColor, textColor, font), new Runnable(){
     public void run(){
@@ -823,180 +878,180 @@ public void initializeButtons() {
       moveScreen(width * -2, height * -2);
     }
   });
-  
+
   //White
   pos.set(width * 2, height * 2);
   size.set(width / 4, height / 4);
   buttons[39] = new Button(pos, size, generateButtonBase(size, "1001", "", 0xFFFFFFFF, 0xFF000000, font, 0xFF000000), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFFFFFFFF);
       saveJSONObject(settings, "settings.json");
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   //Black
   pos.set(width * 2 + width / 4, height * 2);
   buttons[40] = new Button(pos, size, generateButtonBase(size, "1000", "", 0xFF000000, 0xFFFFFFFF, font, 0xFFFFFFFF), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFF000000);
       saveJSONObject(settings, "settings.json");
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   //Cornflower Blue
   pos.set(width * 2 + width / 2, height * 2);
   buttons[41] = new Button(pos, size, generateButtonBase(size, "1000", "", 0xFF6495ED, 0xFFFFFFFF, font, 0xFF000000), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFF6495ED);
       saveJSONObject(settings, "settings.json");
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   //Crimson
   pos.set(width * 2 + width *.75f, height * 2);
   buttons[42] = new Button(pos, size, generateButtonBase(size, "1100", "", 0xFFDC143C, 0xFFFFFFFF, font, 0xFF000000), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFFDC143C);
       saveJSONObject(settings, "settings.json");
-      
+
       if(settingColor != BG_COLOR) eEggTime = -1;
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   //Dark Orange
   pos.set(width * 2, height * 2 + height / 4);
   buttons[43] = new Button(pos, size, generateButtonBase(size, "0001", "", 0xFFFF8C00, 0xFFFFFFFF, font, 0xFF000000), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFFFF8C00);
       saveJSONObject(settings, "settings.json");
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   pos.set(width * 2, height * 2 + height *.75f);
   buttons[44] = new Button(pos, size, generateButtonBase(size, "0011", "Back", fillColor, textColor, font), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
     }
   });
-  
+
   //Yellow
   pos.set(width * 2 + width / 4, height * 2 + height / 4);
   buttons[45] = new Button(pos, size, generateButtonBase(size, "0000", "", 0xFFFFFF00, 0xFF000000, font, 0xFF000000), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFFFFFF00);
       saveJSONObject(settings, "settings.json");
       if(settingColor != BG_COLOR) eEggTime = -1;
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   //SeaGreen
   pos.set(width * 2 + width / 2, height * 2 + height / 4);
   buttons[46] = new Button(pos, size, generateButtonBase(size, "0000", "", 0xFF2E8B57, 0xFFFFFFFF, font, 0xFFFFFFFF), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFF2E8B57);
       saveJSONObject(settings, "settings.json");
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   //Purple
   pos.set(width * 2 + width * .75f, height * 2 + height / 4);
   buttons[47] = new Button(pos, size, generateButtonBase(size, "0100", "", 0xFF800080, 0xFFFFFFFF, font, 0xFFFFFFFF), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFF800080);
       saveJSONObject(settings, "settings.json");
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   //Gray
   pos.set(width * 2, height * 2 + height / 2);
   buttons[47] = new Button(pos, size, generateButtonBase(size, "0001", "", 0xFF808080, 0xFFFFFFFF, font, 0xFFFFFFFF), new Runnable(){
     public void run(){
       moveScreen(-width, height * -2);
-      
+
       settings.setInt(colors[settingColor], 0xFF808080);
       saveJSONObject(settings, "settings.json");
-      
+
       if(settingColor!=BG_COLOR){
         initLevel --;
         thread("initializeButtons");
       }
-      
+
       settingColor = -1;
     }
   });
-  
+
   initLevel ++;
 }
   static public void main(String[] passedArgs) {

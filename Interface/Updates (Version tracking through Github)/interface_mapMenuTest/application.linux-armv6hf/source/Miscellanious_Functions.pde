@@ -1,8 +1,8 @@
 //----------HELPER FUNCTIONS FOR initializeButtons()----------
 final int DFLT_BTN_COLOR = 0xFF323264; //0xFF2b9ae5;
-final int DFLT_TXT_COLOR = 0xFFBBBBBB; //0xFF000000; 
+final int DFLT_TXT_COLOR = 0xFFBBBBBB; //0xFF000000;
 
-//The margins parameter is a string representation of a nibble for where the edges of the window are:         
+//The margins parameter is a string representation of a nibble for where the edges of the window are:
 //If the top and left sides of the button were against window edges, it would be 0b1001. The order (msb->lsb) is clockwise, starting at the top.
 PGraphics generateButtonBase(PVector size, String marginString, String label, PFont font) {
   return generateButtonBase(size, marginString, label, DFLT_BTN_COLOR, DFLT_TXT_COLOR, font);
@@ -38,7 +38,7 @@ PGraphics generateButtonBase(PVector oSize, String marginString, String label, i
   t.textFont(font);
   t.textSize(textSize);
 
-  while (t.textWidth(label) < size.x * .75 && textSize <= 64) {
+  while (t.textWidth(label) < size.x * .75 && textSize <= 64*uiTextureScaling) {
     t.textSize(textSize);
     textSize ++;
   }
@@ -66,9 +66,12 @@ PGraphics generateButtonBase(PVector oSize, String marginString, String label, i
 //------------------------------------------------------------
 
 void drawButtons() {
+  pushStyle();
+  imageMode(CORNER);
   for (Button b : buttons) {
     b.draw();
   }
+  popStyle();
 }
 
 void moveScreen(float x, float y) {
@@ -100,7 +103,7 @@ void drawLabels() {
       text("Setting\nText", width * 2 + width / 4, height * 2 + height * .75, width * 2 + width / 2, height * 3);
     break;
   }
-  
+
   if(settings.getInt(colors[TEXT_COLOR]) == 0xFFFFFF00 && settings.getInt(colors[BUTTON_COLOR]) == 0xFFDC143C && millis() % (int)random(5, 11) != 0){
     if(eEggTime == -1){
       eEggTime = millis() + 3500;
@@ -114,7 +117,7 @@ void drawLabels() {
 void runSetup() {
   try {
     settings = loadJSONObject("settings.json");
-  } 
+  }
   catch (java.lang.NullPointerException e) {
     settings = new JSONObject();
     settings.setString("font", "Quantico.ttf");
@@ -170,7 +173,7 @@ void runSetup() {
   initLevel ++;
 }
 
-final String[] fileButtonBorders = {"1100", "0100", "0100", "0010"}; 
+final String[] fileButtonBorders = {"1100", "0100", "0100", "0010"};
 Button[] loadPrintFiles(String dir){
   int fillColor = settings.getInt(colors[BUTTON_COLOR]);
   int textColor = settings.getInt(colors[TEXT_COLOR]);
@@ -191,13 +194,13 @@ Button[] loadPrintFiles(String dir){
           moveScreen(width * 2, height);
         }
       }));
-      
+
       if(i % 4 == 3){
         pos.y = height * ((i+1)/4);
       } else{
         pos.y += height / 4;
       }
-      
+
       i++;
     } else if(f.getName().substring(f.getName().lastIndexOf(".")).toLowerCase().equals(".gcode")){
       filenames = (String[])append(filenames, f.getName());
@@ -206,18 +209,18 @@ Button[] loadPrintFiles(String dir){
           moveScreen(width * 3, 0);
         }
       }));
-      
+
       if(i % 4 == 3){
         pos.y = height * ((i+1)/4);
       } else{
         pos.y += height / 4;
       }
-      
+
       i++;
     }
   }
   lastFileButton = firstFileButton + i;
-  
+
   pos.set(width * -2, 0);
   size.set(width / 4, height / 2);
   buttonList.add(new Button(pos, size, generateButtonBase(size, "1001", "Back", fillColor, textColor, font), new Runnable(){
@@ -225,9 +228,9 @@ Button[] loadPrintFiles(String dir){
       moveScreen(width, 0);
     }
   }));
-  
+
   lastFileNav = lastFileButton;
-  
+
   if(i > 4){
     pos.set(width * -2, height / 2);
     buttonList.add(new Button(pos, size, generateButtonBase(size, "0011", "\\/", fillColor, textColor, font), new Runnable(){
@@ -237,7 +240,7 @@ Button[] loadPrintFiles(String dir){
     }));
     lastFileNav++;
   }
-  
+
   for(int j = i/4; j > 0; j --){
     pos.add(0, height / 2);
     buttonList.add(new Button(pos, size, generateButtonBase(size, "1001", "/\\", fillColor, textColor, font), new Runnable(){
@@ -246,7 +249,7 @@ Button[] loadPrintFiles(String dir){
       }
     }));
     lastFileNav++;
-    
+
     if(j != 1){
       pos.add(0, height / 2);
       buttonList.add(new Button(pos, size, generateButtonBase(size, "0011", "\\/", fillColor, textColor, font), new Runnable(){
@@ -257,7 +260,7 @@ Button[] loadPrintFiles(String dir){
       lastFileNav++;
     }
   }
-  
+
   if(buttonList.size() == 0){
     return new Button[]{};
   }

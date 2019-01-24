@@ -1,6 +1,6 @@
 /*
   Trinamic TMC2130 Example
-  
+
   Other examples/libraries can be found here:
   https://github.com/teemuatlut/TMC2130Stepper
   https://github.com/janelia-arduino/TMC2130
@@ -34,8 +34,7 @@
 #define REG_DCCTRL     0x6E
 #define REG_DRVSTATUS  0x6F
 
-uint8_t tmc_write(uint8_t cmd, uint32_t data)
-{
+uint8_t tmc_write(uint8_t cmd, uint32_t data){
   uint8_t s;
 
   digitalWrite(CS_PIN, LOW);
@@ -51,8 +50,7 @@ uint8_t tmc_write(uint8_t cmd, uint32_t data)
   return s;
 }
 
-uint8_t tmc_read(uint8_t cmd, uint32_t *data)
-{
+uint8_t tmc_read(uint8_t cmd, uint32_t *data){
   uint8_t s;
 
   tmc_write(cmd, 0UL); //set read address
@@ -73,8 +71,9 @@ uint8_t tmc_read(uint8_t cmd, uint32_t *data)
   return s;
 }
 
-void setup()
-{
+void setup(){
+  Serial.begin(9600);
+
   //set pins
   pinMode(EN_PIN, OUTPUT);
   digitalWrite(EN_PIN, HIGH); //deactivate driver (LOW active)
@@ -85,6 +84,7 @@ void setup()
 
   pinMode(CS_PIN, OUTPUT);
   digitalWrite(CS_PIN, HIGH);
+
   pinMode(MOSI_PIN, OUTPUT);
   digitalWrite(MOSI_PIN, LOW);
   pinMode(MISO_PIN, INPUT);
@@ -111,14 +111,12 @@ void setup()
   //tmc_write(WRITE_FLAG|REG_CHOPCONF,   0x06008008UL); //  4 microsteps, MRES=0, TBL=1=24, TOFF=8
   //tmc_write(WRITE_FLAG|REG_CHOPCONF,   0x07008008UL); //  2 microsteps, MRES=0, TBL=1=24, TOFF=8
   tmc_write(WRITE_FLAG|REG_CHOPCONF,   0x08008008UL); //  1 microsteps, MRES=0, TBL=1=24, TOFF=8
-  digitalWrite(CS_PIN, LOW);
-
+  //digitalWrite(CS_PIN, LOW);
   //TMC2130 outputs on (LOW active)
   digitalWrite(EN_PIN, LOW);
 }
 
-void loop()
-{
+void loop(){
 
   //make steps
   digitalWrite(STEP_PIN, HIGH);

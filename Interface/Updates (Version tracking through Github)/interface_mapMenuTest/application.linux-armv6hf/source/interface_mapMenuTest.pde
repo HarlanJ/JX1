@@ -32,6 +32,9 @@ short settingColor = -1;
 
 int eEggTime = -2;
 
+int diagonal=0;
+
+//String __LOG__ = "";
 
 void settings(){
   boolean success = true;
@@ -45,20 +48,22 @@ void settings(){
   } else {
     size(800, 480);
   }
+
+  diagonal = int(sqrt(sq(width) + sq(height)));
   noSmooth();
 }
 
 void setup() {
   if(isOnTargetPi) exec("/usr/share/scripts/login");
-  
+
   nano = new Serial(this, "/dev/serial0", 115200);
-  
+
   screenPosition = new PVector(0, 0);
   screenTarget = new PVector(0, 0);
   screenStart = new PVector(0, 0);
 
   buttons = new Button[48];
-  
+
   if(isOnTargetPi){
     noCursor();
   }
@@ -93,11 +98,13 @@ void draw() {
       text("Loading...", 0, 0, width, height);
     }
   }
-  
-  
-  if(frameCount == 200){
-    nano.write((int)'A');
+
+  /*
+  while(nano.available() > 0){
+    __LOG__ += char(nano.read());
   }
+  text(__LOG__, width/2-screenPosition.x, height/2-screenPosition.y);
+  */
 }
 
 void mousePressed() {

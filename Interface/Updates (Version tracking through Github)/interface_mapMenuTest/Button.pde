@@ -3,16 +3,16 @@ import java.lang.Runnable;
 class Button{
   PVector pos, size;
   PImage texture;
-  
-  private Runnable callback;
-  
+
+  Runnable callback;
+
   Button(PVector p, PVector s, PImage t, Runnable CallBack){
     this.pos = p.copy();
     this.size = s.copy();
     this.texture = t;
     this.callback = CallBack;
   }
-  
+
   boolean pressed(){
     float x = mouseX - screenPosition.x;
     float y = mouseY - screenPosition.y;
@@ -22,13 +22,20 @@ class Button{
     }
     return false;
   }
-  
+
   void draw(){
-    if(moving || pos.x + 5 > -screenPosition.x && pos.x< (-screenPosition.x) + width && pos.y + 5 > -screenPosition.y && pos.y < (-screenPosition.y) + height){
-      pushStyle();
-      imageMode(CORNER);
+    
+    if(moving || pos.x + 5 > -screenPosition.x &&
+                 pos.x < (-screenPosition.x) + width &&
+                 pos.y + 5 > -screenPosition.y &&
+                 pos.y < (-screenPosition.y) + height){
+
+    //if(pos.dist(PVector.mult(screenPosition, -1)) <= diagonal){
+      //pushStyle();
+      //imageMode(CORNER);
+      //moved to an outer function for performance
       image(texture, pos.x, pos.y, size.x, size.y);
-      popStyle();
+      //popStyle();
     }
   }
 }
