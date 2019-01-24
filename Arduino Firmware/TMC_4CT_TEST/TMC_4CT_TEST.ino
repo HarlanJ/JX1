@@ -79,9 +79,9 @@ void setup(){
     drivers[i].setEnabled(true);
   }
 
-  drivers[0].setRate(0);
-  drivers[1].setRate(0);
-  drivers[2].setRate(0);
+  drivers[0].setRate(1);
+  drivers[1].setRate(1);
+  drivers[2].setRate(1);
 }
 
 void loop(){
@@ -90,9 +90,9 @@ void loop(){
 
   if(Serial.available() > 0){
     Serial.read();
-    drivers[0].setRate(1);
-    drivers[1].setRate(1);
-    drivers[2].setRate(1);
+    drivers[0].setRate(0);
+    drivers[1].setRate(0);
+    drivers[2].setRate(0);
   }
   
   currentTime = micros();
