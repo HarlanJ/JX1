@@ -56,7 +56,9 @@ void settings(){
 void setup() {
   if(isOnTargetPi) exec("/usr/share/scripts/login");
 
-  nano = new Serial(this, "/dev/serial0", 115200);
+  try{
+    nano = new Serial(this, "/dev/serial0", 115200);
+  } catch (RuntimeException e){}
 
   screenPosition = new PVector(0, 0);
   screenTarget = new PVector(0, 0);
