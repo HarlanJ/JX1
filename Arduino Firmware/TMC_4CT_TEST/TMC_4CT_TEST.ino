@@ -70,7 +70,7 @@ void setup(){
 
   RegisterSettings chopConf;
   chopConf.reg = WRITE_FLAG|REG_CHOPCONF;
-  chopConf.value = 0x08008008UL;
+  chopConf.value = 0x080080080UL;
 
   for(int i = 0; i < 4; i ++){
     drivers[i].writeRegister(gconf.reg, gconf.value);
@@ -90,7 +90,7 @@ void loop(){
   static unsigned long currentTime = 0;
 
   currentTime = micros();
-  if(currentTime - lastSteps >= 3000){
+  if(currentTime - lastSteps >= 2500){
     stepsMade = false;
     bool stepMade;
     for(int i = 0; i < 4; i ++){
