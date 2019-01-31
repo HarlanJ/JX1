@@ -185,8 +185,9 @@ Button[] loadPrintFiles(String dir){
   PVector size = new PVector(width / 4 * 3, height / 4);
   firstFileButton = buttons.length;
   filenames = new String[0];
-  for(File f : files){
-    println(firstFileButton + i + "  " + f.getName());
+  for(final File f : files){
+    //println(firstFileButton + i + "  " + f.getName());
+    /*
     if(f.getName().substring(f.getName().lastIndexOf(".")).toLowerCase().equals(".jcode")){
       filenames = (String[])append(filenames, f.getName());
       buttonList.add(new Button(pos, size, generateButtonBase(size, fileButtonBorders[i % 4], f.getName(), fillColor, textColor, font), new Runnable(){
@@ -202,11 +203,13 @@ Button[] loadPrintFiles(String dir){
       }
 
       i++;
-    } else if(f.getName().substring(f.getName().lastIndexOf(".")).toLowerCase().equals(".gcode")){
+    } else */
+    if(f.getName().substring(f.getName().lastIndexOf(".")).toLowerCase().equals(".gcode")){
       filenames = (String[])append(filenames, f.getName());
       buttonList.add(new Button(pos, size, generateButtonBase(size, fileButtonBorders[i % 4], f.getName(), fillColor, textColor, font), new Runnable(){
         public void run(){
           moveScreen(width * 3, 0);
+          println(f.getName());
         }
       }));
 
