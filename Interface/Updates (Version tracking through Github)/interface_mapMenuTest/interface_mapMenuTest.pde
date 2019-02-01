@@ -49,7 +49,7 @@ void settings(){
     size(800, 480);
   }
 
-  diagonal = int(sqrt(sq(width) + sq(height)));
+  //diagonal = int(sqrt(sq(width) + sq(height)));
   noSmooth();
 }
 
@@ -63,6 +63,7 @@ void setup() {
   screenPosition = new PVector(0, 0);
   screenTarget = new PVector(0, 0);
   screenStart = new PVector(0, 0);
+
 
   buttons = new Button[48];
 

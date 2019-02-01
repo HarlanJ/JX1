@@ -104,7 +104,7 @@ void drawLabels() {
     break;
   }
 
-  if(settings.getInt(colors[TEXT_COLOR]) == 0xFFFFFF00 && settings.getInt(colors[BUTTON_COLOR]) == 0xFFDC143C && millis() % (int)random(5, 11) != 0){
+  if(settings.getInt(colors[TEXT_COLOR]) == 0xFFFFFF00 && settings.getInt(colors[BUTTON_COLOR]) == 0xFFDC143C){//} && millis() % (int)random(5, 11) != 0){
     if(eEggTime == -1){
       eEggTime = millis() + 3500;
     }
@@ -137,7 +137,7 @@ void runSetup() {
     settingsOk = false;
   }
   if (settings.isNull("moveTime")) {
-    settings.setInt("moveTime", 1);
+    settings.setInt("moveTime", 450);
     settingsOk = false;
   }
   if (settings.isNull("font")) {
@@ -209,7 +209,6 @@ Button[] loadPrintFiles(String dir){
       buttonList.add(new Button(pos, size, generateButtonBase(size, fileButtonBorders[i % 4], f.getName(), fillColor, textColor, font), new Runnable(){
         public void run(){
           moveScreen(width * 3, 0);
-          println(f.getName());
         }
       }));
 
