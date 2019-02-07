@@ -114,25 +114,6 @@ void loop(){
           drivers[1].setRate((float)yMove / largest, abs(yMove));
           drivers[2].setRate((float)zMove / largest, abs(zMove));
           drivers[3].setRate((float)eMove / largest, abs(eMove));
-
-          /*
-          Serial.print("X:");
-          Serial.print(xMove, DEC);
-
-          Serial.print("\tY:");
-          Serial.print(yMove, DEC);
-
-          Serial.print("\tZ:");
-          Serial.print(zMove, DEC);
-
-          Serial.print("\tE:");
-          Serial.print(eMove, DEC);
-
-          Serial.print("\tLarge:");
-          Serial.print(largest, DEC);
-
-          Serial.println();
-          */
         }
       break;
 
