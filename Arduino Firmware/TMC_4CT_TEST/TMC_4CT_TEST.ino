@@ -8,13 +8,6 @@ int pins[4][4] = {
   {A5, A6, A4, A3} //driver 4, STEP, DIR, CS, EN
 };
 
-/*
-#define EN_PIN    3 //enable (CFG6)
-#define DIR_PIN   1 //direction
-#define STEP_PIN  0 //step
-#define CS_PIN    2 //chip select
-*/
-
 
 #define MOSI_PIN 11 //SDI/MOSI (ICSP: 4, Uno: 11, Mega: 51)
 #define MISO_PIN 12 //SDO/MISO (ICSP: 1, Uno: 12, Mega: 50)
@@ -70,7 +63,7 @@ void setup(){
 
   RegisterSettings chopConf;
   chopConf.reg = WRITE_FLAG|REG_CHOPCONF;
-  chopConf.value = 0x080080080UL;
+  chopConf.value = 0x08008008UL;
 
   for(int i = 0; i < 4; i ++){
     drivers[i].writeRegister(gconf.reg, gconf.value);
@@ -92,7 +85,6 @@ void loop(){
   currentTime = micros();
   if(currentTime - lastSteps >= 2500){
     stepsMade = false;
-    bool stepMade;
     for(int i = 0; i < 4; i ++){
       stepsMade = (drivers[i].makeStep() || stepsMade);
     }
@@ -104,42 +96,48 @@ void loop(){
     byte buffer[32];
     switch(cmd){
       case 0:
-        Serial.readBytes(buffer, 8);
+        {
+          Serial.readBytes(buffer, 8);
 
-        int16_t xMove = *reinterpret_cast<int16_t *>(&buffer[0]);
-        int16_t yMove = *reinterpret_cast<int16_t *>(&buffer[2]);
-        int16_t zMove = *reinterpret_cast<int16_t *>(&buffer[4]);
-        int16_t eMove = *reinterpret_cast<int16_t *>(&buffer[6]);
+          int16_t xMove = *reinterpret_cast<int16_t *>(&buffer[0]);
+          int16_t yMove = *reinterpret_cast<int16_t *>(&buffer[2]);
+          int16_t zMove = *reinterpret_cast<int16_t *>(&buffer[4]);
+          int16_t eMove = *reinterpret_cast<int16_t *>(&buffer[6]);
 
-        uint16_t largest = 0;
-        if(abs(xMove) > largest) largest = abs(xMove);
-        if(abs(yMove) > largest) largest = abs(yMove);
-        if(abs(zMove) > largest) largest = abs(zMove);
-        if(abs(eMove) > largest) largest = abs(eMove);
+          uint16_t largest = 0;
+          if(abs(xMove) > largest) largest = abs(xMove);
+          if(abs(yMove) > largest) largest = abs(yMove);
+          if(abs(zMove) > largest) largest = abs(zMove);
+          if(abs(eMove) > largest) largest = abs(eMove);
 
-        drivers[0].setRate((float)xMove / largest, abs(xMove));
-        drivers[1].setRate((float)yMove / largest, abs(yMove));
-        drivers[2].setRate((float)zMove / largest, abs(zMove));
-        drivers[3].setRate((float)eMove / largest, abs(eMove));
+          drivers[0].setRate((float)xMove / largest, abs(xMove));
+          drivers[1].setRate((float)yMove / largest, abs(yMove));
+          drivers[2].setRate((float)zMove / largest, abs(zMove));
+          drivers[3].setRate((float)eMove / largest, abs(eMove));
 
-        /*
-        Serial.print("X:");
-        Serial.print(xMove, DEC);
+          /*
+          Serial.print("X:");
+          Serial.print(xMove, DEC);
 
-        Serial.print("\tY:");
-        Serial.print(yMove, DEC);
+          Serial.print("\tY:");
+          Serial.print(yMove, DEC);
 
-        Serial.print("\tZ:");
-        Serial.print(zMove, DEC);
+          Serial.print("\tZ:");
+          Serial.print(zMove, DEC);
 
-        Serial.print("\tE:");
-        Serial.print(eMove, DEC);
+          Serial.print("\tE:");
+          Serial.print(eMove, DEC);
 
-        Serial.print("\tLarge:");
-        Serial.print(largest, DEC);
+          Serial.print("\tLarge:");
+          Serial.print(largest, DEC);
 
-        Serial.println();
-        */
+          Serial.println();
+          */
+        }
+      break;
+
+      default:
+        Serial.read();
       break;
     }
   }
