@@ -1238,6 +1238,8 @@ thin small outline package</description>
 <classes>
 <class number="0" name="default" width="0" drill="0">
 </class>
+<class number="1" name="Data" width="0.0254" drill="0">
+</class>
 </classes>
 <parts>
 <part name="MODUL1" library="arduinoNano" deviceset="ARDUINO_NANO2" device=""/>
@@ -1616,7 +1618,7 @@ thin small outline package</description>
 <label x="208.28" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$22" class="0">
+<net name="N$22" class="1">
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="D2"/>
 <wire x1="73.66" y1="147.32" x2="111.76" y2="147.32" width="0.1524" layer="91"/>
@@ -1625,7 +1627,7 @@ thin small outline package</description>
 <wire x1="111.76" y1="137.16" x2="116.84" y2="137.16" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$27" class="0">
+<net name="N$27" class="1">
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="D0/RX"/>
 <wire x1="73.66" y1="149.86" x2="83.82" y2="149.86" width="0.1524" layer="91"/>
@@ -1859,7 +1861,7 @@ thin small outline package</description>
 <wire x1="210.82" y1="58.42" x2="215.9" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$1" class="0">
+<net name="N$1" class="1">
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="D1/TX"/>
 <wire x1="73.66" y1="152.4" x2="81.28" y2="152.4" width="0.1524" layer="91"/>

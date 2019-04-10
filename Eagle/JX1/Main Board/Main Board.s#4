@@ -1263,6 +1263,8 @@ thin small outline package</description>
 <part name="P+1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="SERIAL_CONN" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X3" device="" package3d_urn="urn:adsk.eagle:package:22458/2"/>
 <part name="POWER_CONN" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X3" device="" package3d_urn="urn:adsk.eagle:package:22458/2"/>
+<part name="P+5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
+<part name="GND4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1340,13 +1342,19 @@ thin small outline package</description>
 <instance part="P+1" gate="1" x="160.02" y="127" smashed="yes">
 <attribute name="VALUE" x="157.48" y="121.92" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="SERIAL_CONN" gate="A" x="86.36" y="142.24" smashed="yes">
-<attribute name="NAME" x="64.77" y="147.955" size="1.778" layer="95"/>
-<attribute name="VALUE" x="80.01" y="134.62" size="1.778" layer="96"/>
+<instance part="SERIAL_CONN" gate="A" x="71.12" y="142.24" smashed="yes">
+<attribute name="NAME" x="59.69" y="150.495" size="1.778" layer="95"/>
+<attribute name="VALUE" x="64.77" y="134.62" size="1.778" layer="96"/>
 </instance>
-<instance part="POWER_CONN" gate="A" x="81.28" y="78.74" smashed="yes">
-<attribute name="NAME" x="74.93" y="84.455" size="1.778" layer="95"/>
-<attribute name="VALUE" x="74.93" y="71.12" size="1.778" layer="96"/>
+<instance part="POWER_CONN" gate="A" x="73.66" y="55.88" smashed="yes">
+<attribute name="NAME" x="62.23" y="64.135" size="1.778" layer="95"/>
+<attribute name="VALUE" x="67.31" y="48.26" size="1.778" layer="96"/>
+</instance>
+<instance part="P+5" gate="1" x="63.5" y="58.42" smashed="yes">
+<attribute name="VALUE" x="60.96" y="53.34" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="GND4" gate="1" x="71.12" y="45.72" smashed="yes">
+<attribute name="VALUE" x="68.58" y="43.18" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -1399,6 +1407,11 @@ thin small outline package</description>
 <pinref part="P+1" gate="1" pin="+5V"/>
 <wire x1="160.02" y1="119.38" x2="160.02" y2="124.46" width="0.1524" layer="91"/>
 <junction x="160.02" y="119.38"/>
+</segment>
+<segment>
+<pinref part="POWER_CONN" gate="A" pin="2"/>
+<wire x1="71.12" y1="55.88" x2="63.5" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="P+5" gate="1" pin="+5V"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -1467,6 +1480,17 @@ thin small outline package</description>
 <wire x1="134.62" y1="93.98" x2="134.62" y2="88.9" width="0.1524" layer="91"/>
 <junction x="134.62" y="88.9"/>
 <pinref part="GND1" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="POWER_CONN" gate="A" pin="3"/>
+<wire x1="71.12" y1="53.34" x2="71.12" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="48.26" x2="76.2" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="48.26" x2="76.2" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="63.5" x2="71.12" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="POWER_CONN" gate="A" pin="1"/>
+<wire x1="71.12" y1="63.5" x2="71.12" y2="58.42" width="0.1524" layer="91"/>
+<pinref part="GND4" gate="1" pin="GND"/>
+<junction x="71.12" y="48.26"/>
 </segment>
 </net>
 <net name="+12V" class="0">
@@ -1604,17 +1628,17 @@ thin small outline package</description>
 <net name="N$27" class="0">
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="D0/RX"/>
-<wire x1="45.72" y1="124.46" x2="73.66" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="73.66" y1="124.46" x2="73.66" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="124.46" x2="60.96" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="124.46" x2="60.96" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="SERIAL_CONN" gate="A" pin="3"/>
-<wire x1="73.66" y1="139.7" x2="83.82" y2="139.7" width="0.1524" layer="91"/>
-<wire x1="83.82" y1="139.7" x2="83.82" y2="134.62" width="0.1524" layer="91"/>
-<junction x="83.82" y="139.7"/>
-<wire x1="83.82" y1="134.62" x2="91.44" y2="134.62" width="0.1524" layer="91"/>
-<wire x1="91.44" y1="134.62" x2="91.44" y2="149.86" width="0.1524" layer="91"/>
-<wire x1="91.44" y1="149.86" x2="83.82" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="139.7" x2="68.58" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="139.7" x2="68.58" y2="134.62" width="0.1524" layer="91"/>
+<junction x="68.58" y="139.7"/>
+<wire x1="68.58" y1="134.62" x2="73.66" y2="134.62" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="134.62" x2="73.66" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="149.86" x2="68.58" y2="149.86" width="0.1524" layer="91"/>
 <pinref part="SERIAL_CONN" gate="A" pin="1"/>
-<wire x1="83.82" y1="149.86" x2="83.82" y2="144.78" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="149.86" x2="68.58" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -1838,10 +1862,10 @@ thin small outline package</description>
 <net name="N$1" class="0">
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="D1/TX"/>
-<wire x1="45.72" y1="127" x2="71.12" y2="127" width="0.1524" layer="91"/>
-<wire x1="71.12" y1="127" x2="71.12" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="127" x2="58.42" y2="127" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="127" x2="58.42" y2="142.24" width="0.1524" layer="91"/>
 <pinref part="SERIAL_CONN" gate="A" pin="2"/>
-<wire x1="71.12" y1="142.24" x2="83.82" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="142.24" x2="68.58" y2="142.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
