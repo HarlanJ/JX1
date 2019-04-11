@@ -1620,11 +1620,11 @@ thin small outline package</description>
 </net>
 <net name="N$22" class="1">
 <segment>
-<pinref part="MODUL1" gate="MODUL" pin="D2"/>
-<wire x1="73.66" y1="147.32" x2="114.3" y2="147.32" width="0.1524" layer="91"/>
-<wire x1="114.3" y1="147.32" x2="114.3" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="U1" gate="U1" pin="SER"/>
 <wire x1="114.3" y1="137.16" x2="116.84" y2="137.16" width="0.1524" layer="91"/>
+<pinref part="MODUL1" gate="MODUL" pin="D5"/>
+<wire x1="73.66" y1="139.7" x2="114.3" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="114.3" y1="139.7" x2="114.3" y2="137.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$27" class="1">

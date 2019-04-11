@@ -1655,8 +1655,8 @@ thin small outline package</description>
 <net name="SCL" class="0">
 <segment>
 <pinref part="U2" gate="U1" pin="SCL"/>
-<wire x1="231.14" y1="129.54" x2="228.6" y2="129.54" width="0.1524" layer="91"/>
-<label x="228.6" y="129.54" size="1.778" layer="95"/>
+<wire x1="231.14" y1="129.54" x2="223.52" y2="129.54" width="0.1524" layer="91"/>
+<label x="223.52" y="129.54" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="U1" gate="U1" pin="SCL"/>
@@ -1672,8 +1672,8 @@ thin small outline package</description>
 <net name="RCK" class="0">
 <segment>
 <pinref part="U2" gate="U1" pin="RCK"/>
-<wire x1="231.14" y1="124.46" x2="228.6" y2="124.46" width="0.1524" layer="91"/>
-<label x="228.6" y="124.46" size="1.778" layer="95"/>
+<wire x1="231.14" y1="124.46" x2="223.52" y2="124.46" width="0.1524" layer="91"/>
+<label x="223.52" y="124.46" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="U1" gate="U1" pin="RCK"/>
@@ -1694,8 +1694,8 @@ thin small outline package</description>
 </segment>
 <segment>
 <pinref part="U2" gate="U1" pin="SCK"/>
-<wire x1="231.14" y1="132.08" x2="228.6" y2="132.08" width="0.1524" layer="91"/>
-<label x="228.6" y="132.08" size="1.778" layer="95"/>
+<wire x1="231.14" y1="132.08" x2="223.52" y2="132.08" width="0.1524" layer="91"/>
+<label x="223.52" y="132.08" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="D8"/>
