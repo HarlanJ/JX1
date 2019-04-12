@@ -2075,6 +2075,7 @@ Source: http://download.siliconexpert.com/pdfs/2005/02/24/Semi_Ap/2/VSH/Resistor
 <part name="R2" library="eagle-ltspice" library_urn="urn:adsk.eagle:library:217" deviceset="R" device="0204/7" package3d_urn="urn:adsk.eagle:package:13274/1"/>
 <part name="BED_THERM" library="con-wago-500" library_urn="urn:adsk.eagle:library:195" deviceset="W237-102" device="" package3d_urn="urn:adsk.eagle:package:10688/1"/>
 <part name="E_THERM" library="con-wago-500" library_urn="urn:adsk.eagle:library:195" deviceset="W237-102" device="" package3d_urn="urn:adsk.eagle:package:10688/1"/>
+<part name="P+10" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+12V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -2166,19 +2167,19 @@ Source: http://download.siliconexpert.com/pdfs/2005/02/24/Semi_Ap/2/VSH/Resistor
 <instance part="GND4" gate="1" x="81.28" y="10.16" smashed="yes">
 <attribute name="VALUE" x="78.74" y="7.62" size="1.778" layer="96"/>
 </instance>
-<instance part="BED_HEAT" gate="-1" x="48.26" y="58.42" smashed="yes">
-<attribute name="NAME" x="48.26" y="59.309" size="1.778" layer="95" rot="R180"/>
+<instance part="BED_HEAT" gate="-1" x="45.72" y="55.88" smashed="yes">
+<attribute name="NAME" x="45.72" y="56.769" size="1.778" layer="95" rot="R180"/>
 </instance>
-<instance part="BED_HEAT" gate="-2" x="48.26" y="53.34" smashed="yes">
-<attribute name="VALUE" x="45.72" y="49.657" size="1.778" layer="96"/>
-<attribute name="NAME" x="48.26" y="54.229" size="1.778" layer="95" rot="R180"/>
+<instance part="BED_HEAT" gate="-2" x="17.78" y="43.18" smashed="yes">
+<attribute name="VALUE" x="15.24" y="39.497" size="1.778" layer="96"/>
+<attribute name="NAME" x="17.78" y="44.069" size="1.778" layer="95" rot="R180"/>
 </instance>
 <instance part="E_HEAT" gate="-1" x="38.1" y="43.18" smashed="yes" rot="R180">
 <attribute name="NAME" x="38.1" y="42.291" size="1.778" layer="95"/>
 </instance>
-<instance part="E_HEAT" gate="-2" x="38.1" y="48.26" smashed="yes" rot="R180">
-<attribute name="VALUE" x="40.64" y="51.943" size="1.778" layer="96" rot="R180"/>
-<attribute name="NAME" x="38.1" y="47.371" size="1.778" layer="95"/>
+<instance part="E_HEAT" gate="-2" x="48.26" y="50.8" smashed="yes" rot="R180">
+<attribute name="VALUE" x="50.8" y="54.483" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="48.26" y="49.911" size="1.778" layer="95"/>
 </instance>
 <instance part="GND7" gate="1" x="71.12" y="58.42" smashed="yes">
 <attribute name="VALUE" x="68.58" y="55.88" size="1.778" layer="96"/>
@@ -2207,6 +2208,9 @@ Source: http://download.siliconexpert.com/pdfs/2005/02/24/Semi_Ap/2/VSH/Resistor
 <instance part="E_THERM" gate="-2" x="12.7" y="71.12" smashed="yes" rot="R180">
 <attribute name="VALUE" x="15.24" y="74.803" size="1.778" layer="96" rot="R180"/>
 <attribute name="NAME" x="12.7" y="70.231" size="1.778" layer="95"/>
+</instance>
+<instance part="P+10" gate="1" x="27.94" y="45.72" smashed="yes">
+<attribute name="VALUE" x="35.306" y="46.482" size="1.778" layer="96" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -2397,6 +2401,14 @@ Source: http://download.siliconexpert.com/pdfs/2005/02/24/Semi_Ap/2/VSH/Resistor
 <junction x="302.26" y="15.24"/>
 <wire x1="317.5" y1="15.24" x2="317.5" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="P+3" gate="1" pin="+12V"/>
+</segment>
+<segment>
+<pinref part="E_HEAT" gate="-1" pin="KL"/>
+<pinref part="P+10" gate="1" pin="+12V"/>
+<wire x1="33.02" y1="43.18" x2="27.94" y2="43.18" width="0.1524" layer="91"/>
+<pinref part="BED_HEAT" gate="-2" pin="KL"/>
+<wire x1="22.86" y1="43.18" x2="27.94" y2="43.18" width="0.1524" layer="91"/>
+<junction x="27.94" y="43.18"/>
 </segment>
 </net>
 <net name="SCK" class="0">
