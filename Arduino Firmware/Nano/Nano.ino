@@ -1,6 +1,8 @@
 #include "SPI.h"
 #include "ShiftRegister.h"
+#include "DriverControl.h"
 
+//    Driver registers
 #define WRITE_FLAG        (1<<7) //write flag
 #define READ_FLAG         (0<<7) //read flag
 #define REG_GCONF         0x00
@@ -11,11 +13,16 @@
 #define REG_DCCTRL        0x6E
 #define REG_DRVSTATUS     0x6F
 
+//    SPI
 #define MOSI_PIN 11 //SDI/MOSI (ICSP: 4, Uno: 11, Mega: 51)
 #define MISO_PIN 12 //SDO/MISO (ICSP: 1, Uno: 12, Mega: 50)
 #define SCK_PIN  13 //CLK/SCK  (ICSP: 3, Uno: 13, Mega: 52)
 
-ShiftRegister sReg(16, 2, 3, 4, 5);
+//    --END OF DEFINES--
+
+ShiftRegister sReg(16, 5, 8, 9, 7);
+
+DriverControl xDriver, yDriver, zDriver, eDriver;
 
 struct RegisterSettings{
   uint8_t reg;
@@ -48,6 +55,8 @@ void setup(){
   RegisterSettings chopConf;
   chopConf.reg = WRITE_FLAG|REG_CHOPCONF;
   chopConf.value = 0x08008008UL;
+
+  xDriver = DriverControl(&sReg, 6, 7);
 }
 
 void loop(){

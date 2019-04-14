@@ -28,21 +28,19 @@ int ShiftRegister::setPin(uint8_t pin, bool val){
     return 1;
   }
 
-  uint8_t p = 0x01;
-  p = (p << (pin%8));
+  uint8_t mask = 0x01;
+  mask = (mask << (pin%8));
   uint8_t* v = _val + (pin / 8);
 
   if(val){
-    *v = (*v) | p;
+    *v = (*v) | mask;
   } else {
-    p = !p;
-    *v = (*v) & p;
+    mask = ~mask;
+    *v = (*v) & mask;
   }
 
   return 0;
 }
-
-
 
 void ShiftRegister::update(){
   digitalWrite(_rck, LOW);

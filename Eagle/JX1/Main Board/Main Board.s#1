@@ -3177,26 +3177,26 @@ Source: http://www.irf.com/product-info/datasheets/data/irf3704.pdf</description
 </net>
 <net name="BED_CON" class="0">
 <segment>
-<pinref part="MODUL1" gate="MODUL" pin="A5"/>
-<wire x1="88.9" y1="114.3" x2="99.06" y2="114.3" width="0.1524" layer="91"/>
-<label x="91.44" y="114.3" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="R3" gate="G$1" pin="1"/>
 <wire x1="-53.34" y1="73.66" x2="-60.96" y2="73.66" width="0.1524" layer="91"/>
 <label x="-53.34" y="71.12" size="1.778" layer="95" rot="R180"/>
 </segment>
-</net>
-<net name="E_CON" class="0">
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="A4"/>
-<wire x1="88.9" y1="111.76" x2="99.06" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="88.9" y1="111.76" x2="101.6" y2="111.76" width="0.1524" layer="91"/>
 <label x="91.44" y="111.76" size="1.778" layer="95"/>
 </segment>
+</net>
+<net name="E_CON" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
 <wire x1="-111.76" y1="73.66" x2="-119.38" y2="73.66" width="0.1524" layer="91"/>
 <label x="-111.76" y="71.12" size="1.778" layer="95" rot="R180"/>
+</segment>
+<segment>
+<pinref part="MODUL1" gate="MODUL" pin="A5"/>
+<wire x1="88.9" y1="114.3" x2="101.6" y2="114.3" width="0.1524" layer="91"/>
+<label x="91.44" y="114.3" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
