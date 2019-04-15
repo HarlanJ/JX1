@@ -18,11 +18,18 @@
 #define MISO_PIN 12 //SDO/MISO (ICSP: 1, Uno: 12, Mega: 50)
 #define SCK_PIN  13 //CLK/SCK  (ICSP: 3, Uno: 13, Mega: 52)
 
+//    Driver Aliases
+#define xDriver drivers[0]
+#define yDriver drivers[1]
+#define zDriver drivers[2]
+#define eDriver drivers[3]
+
 //    --END OF DEFINES--
 
 ShiftRegister sReg(16, 5, 8, 9, 7);
 
-DriverControl xDriver, yDriver, zDriver, eDriver;
+//DriverControl xDriver, yDriver, zDriver, eDriver;
+DriverControl drivers[4];
 
 struct RegisterSettings{
   uint8_t reg;
@@ -56,9 +63,77 @@ void setup(){
   chopConf.reg = WRITE_FLAG|REG_CHOPCONF;
   chopConf.value = 0x08008008UL;
 
-  xDriver = DriverControl(&sReg, 6, 7);
+  for(int i = 0; i < 4; i ++){
+    // cs, en, step, dir
+    uint8_t offset = i*4;
+    drivers[i] = DriverControl(&sReg, offset + 2, offset + 3, offset + 1, offset);
+
+    drivers[i].writeRegister(gconf.reg, gconf.value);
+    drivers[i].writeRegister(iHold_iRun.reg, iHold_iRun.value);
+    drivers[i].writeRegister(chopConf.reg, chopConf.value);
+
+    drivers[i].setEnabled(true);
+  }
 }
 
 void loop(){
+  static bool driverUse;
+  static bool stepsMade = false;
 
+  static unsigned long lastSteps = -1;
+  static unsigned long currentTime = 0;
+
+  currentTime = micros();
+  if(currentTime - lastSteps >= 2500){
+    for(int i = 0; i < 4; i ++){
+      driverUse = drivers[i].makeStep();
+      if(driverUse){
+        sReg.setPin(drivers[i].getStepPin(), HIGH);
+      }
+
+      stepsMade = (stepsMade || driverUse);
+    }
+  }
+  sReg.update();
+
+  if(!stepsMade && Serial.available() > 0){
+    int cmd = Serial.read();
+    byte buffer[32];
+    switch(cmd){
+      case 0:
+        {
+          Serial.readBytes(buffer, 8);
+
+          int16_t xMove = *reinterpret_cast<int16_t *>(&buffer[0]);
+          int16_t yMove = *reinterpret_cast<int16_t *>(&buffer[2]);
+          int16_t zMove = *reinterpret_cast<int16_t *>(&buffer[4]);
+          int16_t eMove = *reinterpret_cast<int16_t *>(&buffer[6]);
+
+          uint16_t largest = 0;
+          largest = max(abs(xMove), largest);
+          largest = max(abs(yMove), largest);
+          largest = max(abs(zMove), largest);
+          largest = max(abs(eMove), largest);
+
+          drivers[0].setRate((float)xMove / largest, abs(xMove));
+          drivers[1].setRate((float)yMove / largest, abs(yMove));
+          drivers[2].setRate((float)zMove / largest, abs(zMove));
+          drivers[3].setRate((float)eMove / largest, abs(eMove));
+        }
+      break;
+
+      default:
+        Serial.read();
+      break;
+    }
+  }
+
+  //Reset the step pins
+  if(stepsMade){
+    delayMicroseconds(10);
+    for(int i = 0; i < 4; i ++){
+      sReg.setPin(drivers[i].getStepPin(), LOW);
+    }
+    sReg.update();
+  }
 }

@@ -2471,19 +2471,19 @@ Source: http://www.irf.com/product-info/datasheets/data/irf3704.pdf</description
 <instance part="GND4" gate="1" x="114.3" y="15.24" smashed="yes">
 <attribute name="VALUE" x="111.76" y="12.7" size="1.778" layer="96"/>
 </instance>
-<instance part="BED_HEAT" gate="-1" x="-33.02" y="93.98" smashed="yes">
-<attribute name="NAME" x="-25.4" y="97.409" size="1.778" layer="95" rot="R180"/>
+<instance part="BED_HEAT" gate="-1" x="383.54" y="121.92" smashed="yes">
+<attribute name="NAME" x="391.16" y="125.349" size="1.778" layer="95" rot="R180"/>
 </instance>
-<instance part="BED_HEAT" gate="-2" x="-63.5" y="35.56" smashed="yes">
-<attribute name="VALUE" x="-66.04" y="31.877" size="1.778" layer="96"/>
-<attribute name="NAME" x="-63.5" y="36.449" size="1.778" layer="95" rot="R180"/>
+<instance part="BED_HEAT" gate="-2" x="358.14" y="81.28" smashed="yes">
+<attribute name="VALUE" x="355.6" y="77.597" size="1.778" layer="96"/>
+<attribute name="NAME" x="358.14" y="82.169" size="1.778" layer="95" rot="R180"/>
 </instance>
-<instance part="E_HEAT" gate="-1" x="-43.18" y="35.56" smashed="yes" rot="R180">
-<attribute name="NAME" x="-43.18" y="34.671" size="1.778" layer="95"/>
+<instance part="E_HEAT" gate="-1" x="378.46" y="81.28" smashed="yes" rot="R180">
+<attribute name="NAME" x="378.46" y="80.391" size="1.778" layer="95"/>
 </instance>
-<instance part="E_HEAT" gate="-2" x="-91.44" y="93.98" smashed="yes">
-<attribute name="VALUE" x="-93.98" y="90.297" size="1.778" layer="96"/>
-<attribute name="NAME" x="-86.36" y="97.409" size="1.778" layer="95" rot="R180"/>
+<instance part="E_HEAT" gate="-2" x="347.98" y="121.92" smashed="yes">
+<attribute name="VALUE" x="345.44" y="118.237" size="1.778" layer="96"/>
+<attribute name="NAME" x="353.06" y="125.349" size="1.778" layer="95" rot="R180"/>
 </instance>
 <instance part="GND7" gate="1" x="111.76" y="66.04" smashed="yes">
 <attribute name="VALUE" x="109.22" y="63.5" size="1.778" layer="96"/>
@@ -2513,27 +2513,27 @@ Source: http://www.irf.com/product-info/datasheets/data/irf3704.pdf</description
 <attribute name="VALUE" x="48.26" y="79.883" size="1.778" layer="96" rot="R180"/>
 <attribute name="NAME" x="45.72" y="75.311" size="1.778" layer="95"/>
 </instance>
-<instance part="P+10" gate="1" x="-53.34" y="38.1" smashed="yes">
-<attribute name="VALUE" x="-45.974" y="38.862" size="1.778" layer="96" rot="R180"/>
+<instance part="P+10" gate="1" x="368.3" y="83.82" smashed="yes">
+<attribute name="VALUE" x="375.666" y="84.582" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="R3" gate="G$1" x="-48.26" y="73.66" smashed="yes">
-<attribute name="NAME" x="-52.07" y="75.1586" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-52.07" y="70.358" size="1.778" layer="96"/>
+<instance part="R3" gate="G$1" x="378.46" y="111.76" smashed="yes">
+<attribute name="NAME" x="374.65" y="113.2586" size="1.778" layer="95"/>
+<attribute name="VALUE" x="377.19" y="108.458" size="1.778" layer="96"/>
 </instance>
-<instance part="R4" gate="G$1" x="-106.68" y="73.66" smashed="yes">
-<attribute name="NAME" x="-110.49" y="75.1586" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-110.49" y="70.358" size="1.778" layer="96"/>
+<instance part="R4" gate="G$1" x="342.9" y="111.76" smashed="yes">
+<attribute name="NAME" x="339.09" y="113.2586" size="1.778" layer="95"/>
+<attribute name="VALUE" x="339.09" y="108.458" size="1.778" layer="96"/>
 </instance>
-<instance part="GND9" gate="1" x="-53.34" y="48.26" smashed="yes">
-<attribute name="VALUE" x="-55.88" y="45.72" size="1.778" layer="96"/>
+<instance part="GND9" gate="1" x="373.38" y="99.06" smashed="yes">
+<attribute name="VALUE" x="370.84" y="96.52" size="1.778" layer="96"/>
 </instance>
-<instance part="Q1" gate="G$1" x="-86.36" y="76.2" smashed="yes">
-<attribute name="NAME" x="-80.01" y="78.74" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-80.01" y="76.2" size="1.778" layer="96"/>
+<instance part="Q1" gate="G$1" x="353.06" y="114.3" smashed="yes">
+<attribute name="NAME" x="359.41" y="116.84" size="1.778" layer="95"/>
+<attribute name="VALUE" x="359.41" y="114.3" size="1.778" layer="96"/>
 </instance>
-<instance part="Q2" gate="G$1" x="-27.94" y="76.2" smashed="yes">
-<attribute name="NAME" x="-21.59" y="78.74" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-21.59" y="76.2" size="1.778" layer="96"/>
+<instance part="Q2" gate="G$1" x="388.62" y="114.3" smashed="yes">
+<attribute name="NAME" x="394.97" y="116.84" size="1.778" layer="95"/>
+<attribute name="VALUE" x="394.97" y="114.3" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -2684,15 +2684,15 @@ Source: http://www.irf.com/product-info/datasheets/data/irf3704.pdf</description
 <wire x1="111.76" y1="68.58" x2="111.76" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="-83.82" y1="58.42" x2="-53.34" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="-53.34" y1="58.42" x2="-25.4" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="355.6" y1="104.14" x2="373.38" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="373.38" y1="104.14" x2="391.16" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="GND9" gate="1" pin="GND"/>
-<wire x1="-53.34" y1="50.8" x2="-53.34" y2="58.42" width="0.1524" layer="91"/>
-<junction x="-53.34" y="58.42"/>
+<wire x1="373.38" y1="101.6" x2="373.38" y2="104.14" width="0.1524" layer="91"/>
+<junction x="373.38" y="104.14"/>
 <pinref part="Q1" gate="G$1" pin="S"/>
-<wire x1="-83.82" y1="58.42" x2="-83.82" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="355.6" y1="104.14" x2="355.6" y2="109.22" width="0.1524" layer="91"/>
 <pinref part="Q2" gate="G$1" pin="S"/>
-<wire x1="-25.4" y1="71.12" x2="-25.4" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="391.16" y1="109.22" x2="391.16" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+12V" class="0">
@@ -2739,10 +2739,10 @@ Source: http://www.irf.com/product-info/datasheets/data/irf3704.pdf</description
 <segment>
 <pinref part="E_HEAT" gate="-1" pin="KL"/>
 <pinref part="P+10" gate="1" pin="+12V"/>
-<wire x1="-48.26" y1="35.56" x2="-53.34" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="373.38" y1="81.28" x2="368.3" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="BED_HEAT" gate="-2" pin="KL"/>
-<wire x1="-58.42" y1="35.56" x2="-53.34" y2="35.56" width="0.1524" layer="91"/>
-<junction x="-53.34" y="35.56"/>
+<wire x1="363.22" y1="81.28" x2="368.3" y2="81.28" width="0.1524" layer="91"/>
+<junction x="368.3" y="81.28"/>
 </segment>
 </net>
 <net name="SCK" class="0">
@@ -3148,38 +3148,38 @@ Source: http://www.irf.com/product-info/datasheets/data/irf3704.pdf</description
 <net name="N$5" class="0">
 <segment>
 <pinref part="Q2" gate="G$1" pin="G"/>
-<wire x1="-30.48" y1="73.66" x2="-43.18" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="386.08" y1="111.76" x2="383.54" y2="111.76" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="N$7" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="-101.6" y1="73.66" x2="-88.9" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="347.98" y1="111.76" x2="350.52" y2="111.76" width="0.1524" layer="91"/>
 <pinref part="Q1" gate="G$1" pin="G"/>
 </segment>
 </net>
 <net name="N$4" class="0">
 <segment>
 <pinref part="E_HEAT" gate="-2" pin="KL"/>
-<wire x1="-86.36" y1="93.98" x2="-83.82" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="353.06" y1="121.92" x2="355.6" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="Q1" gate="G$1" pin="D"/>
-<wire x1="-83.82" y1="81.28" x2="-83.82" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="355.6" y1="119.38" x2="355.6" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$6" class="0">
 <segment>
 <pinref part="BED_HEAT" gate="-1" pin="KL"/>
-<wire x1="-27.94" y1="93.98" x2="-25.4" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="388.62" y1="121.92" x2="391.16" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="Q2" gate="G$1" pin="D"/>
-<wire x1="-25.4" y1="81.28" x2="-25.4" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="391.16" y1="119.38" x2="391.16" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="BED_CON" class="0">
 <segment>
 <pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="-53.34" y1="73.66" x2="-60.96" y2="73.66" width="0.1524" layer="91"/>
-<label x="-53.34" y="71.12" size="1.778" layer="95" rot="R180"/>
+<wire x1="373.38" y1="111.76" x2="370.84" y2="111.76" width="0.1524" layer="91"/>
+<label x="373.38" y="111.76" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="A4"/>
@@ -3190,8 +3190,8 @@ Source: http://www.irf.com/product-info/datasheets/data/irf3704.pdf</description
 <net name="E_CON" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
-<wire x1="-111.76" y1="73.66" x2="-119.38" y2="73.66" width="0.1524" layer="91"/>
-<label x="-111.76" y="71.12" size="1.778" layer="95" rot="R180"/>
+<wire x1="337.82" y1="111.76" x2="335.28" y2="111.76" width="0.1524" layer="91"/>
+<label x="337.82" y="111.76" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="MODUL1" gate="MODUL" pin="A5"/>

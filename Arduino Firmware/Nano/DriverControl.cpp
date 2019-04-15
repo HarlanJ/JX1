@@ -4,10 +4,12 @@
 
 DriverControl::DriverControl(){}
 
-DriverControl::DriverControl(ShiftRegister* reg, uint8_t chipSelect, uint8_t enable){
+DriverControl::DriverControl(ShiftRegister* reg, uint8_t chipSelect, uint8_t enable, uint8_t stepPin, uint8_t dirPin){
   this->_reg = reg;
   this->_cs = chipSelect;
   this->_en = enable;
+  this->_stepPin = stepPin;
+  this->_dirPin = dirPin;
 }
 
 uint8_t DriverControl::writeRegister(uint8_t reg, uint32_t data){
@@ -85,4 +87,12 @@ bool DriverControl::makeStep(){
 
 bool DriverControl::getDir(){
   return this->_rate < 0;
+}
+
+uint8_t DriverControl::getStepPin(){
+  return this->_stepPin;
+}
+
+uint8_t DriverControl::getDirPin(){
+  return this->_dirPin;
 }

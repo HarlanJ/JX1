@@ -21,6 +21,7 @@ ShiftRegister::ShiftRegister(uint8_t numOut, uint8_t ser, uint8_t clock, uint8_t
   numReg += (numReg*8<numOut ? 1 : 0);
 
   _val = (uint8_t *)malloc(sizeof(uint8_t) * numReg);
+  this->update();
 }
 
 int ShiftRegister::setPin(uint8_t pin, bool val){

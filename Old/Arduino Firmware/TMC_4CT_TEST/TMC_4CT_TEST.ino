@@ -77,7 +77,7 @@ void setup(){
 }
 
 void loop(){
-  static bool stepsMade;
+  static bool stepsMade = false;
 
   static unsigned long lastSteps = -1;
   static unsigned long currentTime = 0;
