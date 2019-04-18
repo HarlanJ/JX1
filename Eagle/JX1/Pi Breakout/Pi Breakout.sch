@@ -1635,13 +1635,6 @@ CONN_20x2
 <label x="187.96" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="GND@25" class="0">
-<segment>
-<pinref part="JP1" gate="A" pin="25"/>
-<wire x1="195.58" y1="40.64" x2="187.96" y2="40.64" width="0.1524" layer="91"/>
-<label x="180.34" y="40.64" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="7" class="0">
 <segment>
 <pinref part="JP1" gate="A" pin="7"/>
@@ -1730,6 +1723,11 @@ CONN_20x2
 <wire x1="195.58" y1="45.72" x2="187.96" y2="45.72" width="0.1524" layer="91"/>
 <label x="180.34" y="45.72" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="J2" gate="G$1" pin="MISO"/>
+<wire x1="124.46" y1="71.12" x2="134.62" y2="71.12" width="0.1524" layer="91"/>
+<label x="127" y="71.12" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="IRQ" class="0">
 <segment>
@@ -1812,13 +1810,6 @@ CONN_20x2
 <segment>
 <pinref part="J2" gate="G$1" pin="CE0"/>
 <wire x1="124.46" y1="66.04" x2="134.62" y2="66.04" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$39" class="0">
-<segment>
-<pinref part="J2" gate="G$1" pin="MISO"/>
-<wire x1="124.46" y1="71.12" x2="134.62" y2="71.12" width="0.1524" layer="91"/>
-<label x="127" y="71.12" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -1910,6 +1901,11 @@ CONN_20x2
 <label x="218.44" y="48.26" size="1.778" layer="95" align="bottom-right"/>
 <wire x1="203.2" y1="48.26" x2="226.06" y2="48.26" width="0.1524" layer="91"/>
 <junction x="226.06" y="48.26"/>
+</segment>
+<segment>
+<pinref part="JP1" gate="A" pin="25"/>
+<wire x1="195.58" y1="40.64" x2="187.96" y2="40.64" width="0.1524" layer="91"/>
+<label x="180.34" y="40.64" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
