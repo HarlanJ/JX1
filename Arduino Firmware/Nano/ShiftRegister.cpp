@@ -13,22 +13,27 @@ ShiftRegister::ShiftRegister(uint8_t numOut, uint8_t ser, uint8_t clock, uint8_t
   pinMode(_cls, OUTPUT);
   pinMode(_rck, OUTPUT);
 
+  //Clear the shift register
   digitalWrite(_cls, LOW);
   delayMicroseconds(10);
   digitalWrite(_cls, HIGH);
 
+  //Determine the number of 8-bit shift registers connected from the number of pins
   uint8_t numReg = numOut / 8;
   numReg += (numReg*8<numOut ? 1 : 0);
 
+  //get the variable to store the desired output of the shift register(s)
   _val = (uint8_t *)malloc(sizeof(uint8_t) * numReg);
   this->update();
 }
 
 int ShiftRegister::setPin(uint8_t pin, bool val){
-  if(pin >= numPins){
+  if(pin >= numPins || pin < 0){
     return 1;
   }
 
+  //Since the shift regsiter output is bit-packed, do some math to fiugre out
+  //where to put the desired pin value.
   uint8_t mask = 0x01;
   mask = (mask << (pin%8));
   uint8_t* v = _val + (pin / 8);

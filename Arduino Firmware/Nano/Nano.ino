@@ -51,6 +51,7 @@ void setup(){
   SPI.begin();
   SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
 
+  //Settings for xyz(e) stepper drivers
   RegisterSettings gconf;
   gconf.reg = WRITE_FLAG|REG_GCONF;
   gconf.value = 0x00000005UL;
@@ -63,11 +64,15 @@ void setup(){
   chopConf.reg = WRITE_FLAG|REG_CHOPCONF;
   chopConf.value = 0x08008008UL;
 
+
+  //prepare stepper drivers
   for(int i = 0; i < 4; i ++){
     // cs, en, step, dir
     uint8_t offset = i*4;
+    //Set pinsIds and shift register
     drivers[i] = DriverControl(&sReg, offset + 2, offset + 3, offset + 1, offset);
 
+    //Set up registers
     drivers[i].writeRegister(gconf.reg, gconf.value);
     drivers[i].writeRegister(iHold_iRun.reg, iHold_iRun.value);
     drivers[i].writeRegister(chopConf.reg, chopConf.value);
@@ -83,6 +88,7 @@ void loop(){
   static unsigned long lastSteps = -1;
   static unsigned long currentTime = 0;
 
+  //keeps the drivers slow enough for the motors to keep up
   currentTime = micros();
   if(currentTime - lastSteps >= 2500){
     for(int i = 0; i < 4; i ++){
@@ -94,12 +100,15 @@ void loop(){
       stepsMade = (stepsMade || driverUse);
     }
   }
+  //Update the shift register outputs
   sReg.update();
 
+  //Handle serial communication
   if(!stepsMade && Serial.available() > 0){
     int cmd = Serial.read();
     byte buffer[32];
     switch(cmd){
+      //move the steppers (g0/g1)
       case 0:
         {
           Serial.readBytes(buffer, 8);
@@ -123,6 +132,7 @@ void loop(){
       break;
 
       default:
+        //Clear garbage that happens sometimes
         Serial.read();
       break;
     }

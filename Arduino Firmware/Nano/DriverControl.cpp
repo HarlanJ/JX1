@@ -72,7 +72,7 @@ bool DriverControl::makeStep(){
     return false;
   } else {
     this->_stepProgress += this->_rate;
-
+    
     if(_stepProgress >= 1){
       _stepsToDo --;
       _stepProgress -= 1;
