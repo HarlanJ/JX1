@@ -83,7 +83,8 @@ void setup(){
 
 void loop(){
   static bool driverUse;
-  static bool stepsMade = false;
+  static bool stepsMade;
+  stepsMade = false;
 
   static unsigned long lastSteps = -1;
   static unsigned long currentTime = 0;
@@ -99,6 +100,7 @@ void loop(){
 
       stepsMade = (stepsMade || driverUse);
     }
+    lastSteps = micros();
   }
   //Update the shift register outputs
   sReg.update();

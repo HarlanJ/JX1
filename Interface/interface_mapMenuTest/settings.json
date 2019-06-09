@@ -1,0 +1,9 @@
+{
+  "bgColor": -16777216,
+  "buttonColor": -10185235,
+  "uiTextureScaling": 1,
+  "moveTime": 300,
+  "textColor": -16777216,
+  "isOnTargetPi": false,
+  "font": "Orbitron.ttf"
+}
