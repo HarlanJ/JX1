@@ -47,6 +47,8 @@ void setupSPI() {
 }
 
 void setup(){
+  Serial.begin(115200);
+
   setupSPI();
   SPI.begin();
   SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
@@ -110,7 +112,7 @@ void loop(){
     int cmd = Serial.read();
     byte buffer[32];
     switch(cmd){
-      //move the steppers (g0/g1)
+      //move the tool (g0/g1)
       case 0:
         {
           Serial.readBytes(buffer, 8);
