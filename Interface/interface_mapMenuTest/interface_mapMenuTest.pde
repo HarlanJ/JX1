@@ -57,8 +57,17 @@ void setup() {
   if(isOnTargetPi) exec("/usr/share/scripts/login");
 
   try{
-    nano = new Serial(this, "/dev/serial0", 115200);
-  } catch (RuntimeException e){}
+    String portName = "";
+    if(isOnTargetPi){
+      portName  = "/dev/serial0";
+    } else {
+      portName = "COM3";
+    }
+    nano = new Serial(this, portName, 115200);
+    println("Serial connected.");
+  } catch (RuntimeException e){
+    println("Serial failed to connect.");
+  }
 
   screenPosition = new PVector(0, 0);
   screenTarget = new PVector(0, 0);
@@ -77,8 +86,15 @@ void setup() {
   rectMode(CORNERS);
 }
 
+void handleSerial(){
+  while(nano.available() > 0){
+    print(nano.readString());
+  }
+}
+
 void draw() {
   if (initLevel == initLevelCount) {
+    handleSerial();
     background(settings.getInt("bgColor"));
     translate(screenPosition.x, screenPosition.y);
 

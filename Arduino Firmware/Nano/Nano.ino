@@ -98,6 +98,8 @@ void loop(){
       driverUse = drivers[i].makeStep();
       if(driverUse){
         sReg.setPin(drivers[i].getStepPin(), HIGH);
+        Serial.print("Used driver ");
+        Serial.println(i, DEC);
       }
 
       stepsMade = (stepsMade || driverUse);
@@ -110,6 +112,8 @@ void loop(){
   //Handle serial communication
   if(!stepsMade && Serial.available() > 0){
     int cmd = Serial.read();
+    Serial.print("Command received: ");
+    Serial.println(cmd, DEC);
     byte buffer[32];
     switch(cmd){
       //move the tool (g0/g1)
@@ -141,6 +145,7 @@ void loop(){
       break;
     }
   }
+
 
   //Reset the step pins
   if(stepsMade){
