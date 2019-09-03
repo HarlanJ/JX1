@@ -1,0 +1,68 @@
+M140 Snn
+  Set bed temp and return immediately
+
+M190 Snn
+  Sert bed temp and wait
+
+M104 Snn
+  Set extruder temp and return immediately
+
+M109 Snn
+  Set extruder temp and wait
+
+M105
+  Get bed/tool temp
+
+M82
+  Absolute extrusion mode
+
+M201 Xnn Ynn Znn Enn
+  Sets max acceleration for print moves
+
+M2013 Xnn Ynn Znn Enn
+  Sets max feed rate (mm/s)
+
+M204 Pnn Tnn
+   Sets overall acceleration for (P)rint and (T)ravel
+
+M205 Snn Tnn Bnn Xnn Znn Enn
+  minimum travel speed during printing(S) and (T)ravel,
+  minimum segment time (B),
+  (X)Y, Z, and (E)xtruder jerk.
+
+M220 Snnn
+  Speed multiplier (%)
+
+M221 Snnn Dnnn
+  Sets extrusion multiplier (%) for (D)rive
+
+G28 X Y Z
+  Homes printer, if X, Y, or Z are specified, home those axes specifically.
+
+G92 Xnn Ynn Znn Enn
+  Sets current soft value to number for that axis. No physical motion.
+
+M141 Pnn Hnn Snn Rnn
+  Sets chamber P to temperature S, using heater H. Standby at R.
+  Return immediately
+
+M107
+  Fan Off
+
+M106 Pnn Snn
+  Set fan P to (S)peed[0-255]
+
+M84 X Y Z E
+  Disable selected stepper(s)
+
+G90
+  Set to absolute positioning
+
+G91
+  Set to relative positioning.
+
+
+===================DONE===================
+
+G0/G1 Xnn Ynn Znn Enn Fnn Snn
+  XYZE position to move to. (F)eed rate in mm/min. La(s)er power
